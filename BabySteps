@@ -1,0 +1,31 @@
+---
+- name: Install GuideWire
+  hosts: ansibleclient01
+  remote_user: root
+  tasks:
+
+- name: Update host
+  yum:
+      name: '*'
+      state: latest
+
+- name: Create JBoss user account
+    user:
+    name: jboss
+    comment: jboss service account
+
+- name: Create Repo Directory
+  file:
+   path: /repo
+   state: Directory
+   mode: 0777
+   owner: jboss
+   group: jboss
+ 
+- name: Copy Java JDK 8 Update 181 RPM to local repo
+  copy:
+    src: /repo/jdk-8u181-linux-x64.rpm
+    dest: /repo
+    owner: jboss
+    group: jboss
+    mode: 077
